@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "body": "Some Text 1",
+        "user_id": {
+            "id": 1, 
+            "firstName": "Evan",
+            "lastName": "Colondres"
+        }
+    },
+    {
+        "id": 2,
+        "body": "Some Text 2",
+        "user_id": {
+            "id": 2, 
+            "firstName": "Ivan",
+            "lastName": "Colondres"
+        }
+    },
+    {
+        "id": 3,
+        "body": "Some Text 3",
+        "user_id": {
+            "id": 3, 
+            "firstName": "Ovan",
+            "lastName": "Colondres"
+        }
+    }
+]
