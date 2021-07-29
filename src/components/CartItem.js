@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { DataContext } from '../contexts/DataProvider';
 import firebase from '../firebase';
+
 export const CartItem = (props) => {
     const db = firebase.firestore();
     const { getCart } = useContext(DataContext)
