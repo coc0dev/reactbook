@@ -8,6 +8,8 @@ import '../custom.css'
 import { Cart } from './Cart'
 import { BlogSingle } from './BlogSingle'
 import { Shop } from './Shop'
+import { StripeCheckout } from './StripeCheckout'
+
 
 export const Main = (props) => {
   return (
@@ -24,8 +26,9 @@ export const Main = (props) => {
               <Route exact path={'/contact'} render={() => <Contact />} />
               
               <Route exact path={'/shop'} render={() => <Shop /> } />
+              <Route exact path={'/checkout'} render={() => <Shop /> } />
               <Route exact path={'/cart'} render={() => <Cart /> } />
-              <Route exact path={'/checkout'} render = {() => <Checkout /> } />
+              {/* <Route exact path={'/create-checkout-session'} render = {() => <StripeCheckout /> } /> */}
           </Switch>
         </main>
         

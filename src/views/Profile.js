@@ -13,6 +13,8 @@ export const Profile = () => {
         .then(res => res.json())
         .then(data => setPosts(data)
         )})
+    
+    
 
     // componentDidMount() {
     //     fetch('/api/blog/user')
@@ -56,19 +58,19 @@ export const Profile = () => {
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <input type="text" className="form-control" id="firstName" placeholder="First Name" name="first_name" defaultValue="" />
+                                        <input type="text" className="form-control" id="firstName" placeholder="First Name" name="first_name" defaultValue={currentUser.firstName} />
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <input type="text" className="form-control" id="lastName" placeholder="Last Name" name="last_name" defaultValue="" />
+                                        <input type="text" className="form-control" id="lastName" placeholder="Last Name" name="last_name" defaultValue={currentUser.lastName} />
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <input type="email" className="form-control" placeholder="example@email.com" id="email" name="email" defaultValue="" />
+                                        <input type="email" className="form-control" placeholder="example@email.com" id="email" name="email" defaultValue={currentUser.email} />
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +84,7 @@ export const Profile = () => {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <textarea className="form-control" name="bio" id="bio" cols="30" rows="10" placeholder="Type bio here"></textarea>
+                                        <textarea className="form-control" name="bio" id="bio" cols="30" rows="10" placeholder="Type bio here" defaultValue={currentUser.bio}></textarea>
                                     </div>
                                 </div>
                             </div>

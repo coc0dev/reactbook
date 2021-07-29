@@ -7,6 +7,7 @@ export const DataContext = createContext();
 export const DataProvider = (props) => {
     const [posts, setPosts] = useState([]);
     const [products, setProducts] = useState([])
+    const [checkout, setCheckout] = useState([])
     const db = firebase.firestore();
     const { currentUser } = useAuth();
     const [cart, setCart] = useState({items: {}, quantity: 0, subtotal: 0, grandtotal: 0});
@@ -83,6 +84,15 @@ export const DataProvider = (props) => {
             })
         }, [])
 
+    // useEffect(() => {
+    //     fetch('/api/checkout')
+    //         .then(res => res.json())
+    //         .then(checkout => {
+    //             console.log('checkout?')
+    //         })
+    //         setCheckout()
+    // }, [])
+
     const getPosts = useCallback(() => {
         let newPosts = []
         // connect to our posts collection
@@ -105,7 +115,7 @@ export const DataProvider = (props) => {
         }
     }, [currentUser.logginIn, getPosts ])
     return (
-        <DataContext.Provider value={ { postList: [posts, setPosts], getPosts, products, getCart, cart } }>
+        <DataContext.Provider value={ { postList: [posts, setPosts], getPosts, products, getCart, cart, checkout } }>
             { props.children }
         </DataContext.Provider>
     )

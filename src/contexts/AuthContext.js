@@ -39,14 +39,24 @@ export const AuthProvider = ({children}) => {
         // Firebase knows whether we log in or out. If it detects a change, the user object will be updated by setCurrentUser.
         const subscribe = firebase.auth().onAuthStateChanged(u => {
 
+            
             if (u) {
-                setCurrentUser({
-                    id: u.uid,
-                    name: u.displayName,
-                    image: u.photoURL,
-                    email: u.email,
-                    loggedIn: true
-                });   
+                firebase.firestore().collection('users').doc(u.uid).get()
+                    .then(ref => {
+                        let userProfile = ref.data();
+                        setCurrentUser({
+                            id: u.uid,
+                            firstName: userProfile.firstName,
+                            lastName: userProfile.lastName,
+                            image: u.photoURL,
+                            email: userProfile.email,
+                            bio: userProfile.bio,
+                            loggedIn: true
+                        });
+
+                    })
+                
+
             }
             else {
                 setCurrentUser({ loggedIn : false });

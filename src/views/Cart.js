@@ -4,64 +4,11 @@ import { useAuth } from '../contexts/AuthContext';
 import { DataContext } from '../contexts/DataProvider';
 import firebase from '../firebase';
 import { Link } from 'react-router-dom'
-
-import React, { useState, useEffect } from "react";
-import "./App.css";
-
-const ProductDisplay = () => (
-  <section>
-    <div className="product">
-      <img
-        src="https://i.imgur.com/EHyR2nP.png"
-        alt="The cover of Stubborn Attachments"
-      />
-      <div className="description">
-        <h3>Stubborn Attachments</h3>
-        <h5>$20.00</h5>
-      </div>
-    </div>
-    <form action="/create-checkout-session" method="POST">
-      <button type="submit">
-        Checkout
-      </button>
-    </form>
-  </section>
-);
-
-const Message = ({ message }) => (
-  <section>
-    <p>{message}</p>
-  </section>
-);
-
-export default function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-
-    if (query.get("success")) {
-      setMessage("Order placed! You will receive an email confirmation.");
-    }
-
-    if (query.get("canceled")) {
-      setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
-      );
-    }
-  }, []);
-
-  return message ? (
-    <Message message={message} />
-  ) : (
-    <ProductDisplay />
-  );
-}
-
+import { loadStripe } from '@stripe/stripe-js'
 
 export const Cart = () =>
 {
+    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
     const db = firebase.firestore();
     const { currentUser } = useAuth();
     const { cart } = useContext(DataContext);
@@ -86,6 +33,26 @@ export const Cart = () =>
             }).catch(err => console.error(err))
         })
     }, [ newCart, currentUser.id, db])
+
+    const handleCheckout = async (e) => {
+        e.preventDefault();
+
+        console.log(cart)
+        const stripe = await stripePromise
+        fetch('/api/shop/checkout', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(cart)
+        })
+            .then(res => res.json())
+            .then(checkout => {
+                console.log(checkout)
+                stripe.redirectToCheckout({sessionId: checkout.session_id})
+            })
+            
+    };
+
     return (
         <div>
             <h3>Cart</h3>
@@ -130,7 +97,7 @@ export const Cart = () =>
                         </div>
                     </div>
                     <div className="pull-right" style={{ margin: "10px" }}>
-                        <form id="checkout-form" action="" method="POST">
+                        <form id="checkout-form" onSubmit={handleCheckout} method="POST">
                             <input type="submit" className="btn btn-success pull-right" value="Checkout" />
                         </form>
                     </div>
